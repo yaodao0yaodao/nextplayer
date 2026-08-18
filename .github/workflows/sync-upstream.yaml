@@ -46,7 +46,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
         with:
           validate-wrappers: true
-          gradle-home-cache-cleanup: true
+          cache-cleanup: always
 
       - name: Configure optional private signing key
         env:
