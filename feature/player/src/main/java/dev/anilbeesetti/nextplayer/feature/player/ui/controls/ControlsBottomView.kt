@@ -54,17 +54,12 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import dev.anilbeesetti.nextplayer.core.common.extensions.isTelevision
-import dev.anilbeesetti.nextplayer.core.model.VideoContentScale
 import dev.anilbeesetti.nextplayer.core.ui.R
 import dev.anilbeesetti.nextplayer.core.ui.extensions.copy
 import dev.anilbeesetti.nextplayer.feature.player.LocalUseMaterialYouControls
-import dev.anilbeesetti.nextplayer.feature.player.buttons.LoopButton
 import dev.anilbeesetti.nextplayer.feature.player.buttons.PlayerButton
-import dev.anilbeesetti.nextplayer.feature.player.buttons.ShuffleButton
-import dev.anilbeesetti.nextplayer.feature.player.extensions.drawableRes
 import dev.anilbeesetti.nextplayer.feature.player.extensions.noRippleClickable
 import dev.anilbeesetti.nextplayer.feature.player.state.MediaPresentationState
 import dev.anilbeesetti.nextplayer.feature.player.state.durationFormatted
@@ -75,18 +70,10 @@ import dev.anilbeesetti.nextplayer.feature.player.state.positionFormatted
 @Composable
 fun ControlsBottomView(
     modifier: Modifier = Modifier,
-    player: Player,
     mediaPresentationState: MediaPresentationState,
     controlsAlignment: Alignment.Horizontal,
-    videoContentScale: VideoContentScale,
-    isPipSupported: Boolean,
     seekBarModifier: Modifier = Modifier,
-    onVideoContentScaleClick: () -> Unit,
-    onVideoContentScaleLongClick: () -> Unit,
-    onLockControlsClick: () -> Unit,
-    onPictureInPictureClick: () -> Unit,
-    onRotateClick: () -> Unit,
-    onPlayInBackgroundClick: () -> Unit,
+    onPlaybackSpeedClick: () -> Unit,
     onSeek: (Long) -> Unit,
     onSeekEnd: () -> Unit,
 ) {
@@ -137,19 +124,6 @@ fun ControlsBottomView(
                 )
             }
 
-            Spacer(modifier = Modifier.weight(1f))
-            if (!isTv) {
-                PlayerButton(
-                    modifier = modifier.size(30.dp),
-                    onClick = onRotateClick,
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_screen_rotation),
-                        contentDescription = null,
-                        modifier = Modifier.size(20.dp),
-                    )
-                }
-            }
         }
         PlayerSeekbar(
             modifier = seekBarModifier,
@@ -165,37 +139,12 @@ fun ControlsBottomView(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = controlsAlignment),
         ) {
-            PlayerButton(onClick = onLockControlsClick) {
+            PlayerButton(onClick = onPlaybackSpeedClick) {
                 Icon(
-                    painter = painterResource(R.drawable.ic_lock_open),
+                    painter = painterResource(R.drawable.ic_speed),
                     contentDescription = null,
                 )
             }
-            PlayerButton(
-                onClick = onVideoContentScaleClick,
-                onLongClick = onVideoContentScaleLongClick,
-            ) {
-                Icon(
-                    painter = painterResource(videoContentScale.drawableRes()),
-                    contentDescription = null,
-                )
-            }
-            if (isPipSupported) {
-                PlayerButton(onClick = onPictureInPictureClick) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_pip),
-                        contentDescription = null,
-                    )
-                }
-            }
-            PlayerButton(onClick = onPlayInBackgroundClick) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_headset),
-                    contentDescription = null,
-                )
-            }
-            LoopButton(player = player)
-            ShuffleButton(player = player)
         }
     }
 }

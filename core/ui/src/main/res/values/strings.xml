@@ -218,6 +218,15 @@
     <string name="by">by %1$s</string>
     <string name="libraries">Libraries</string>
     <string name="github">Github</string>
+    <string name="check_for_updates">Check for updates</string>
+    <string name="already_latest_version">You already have the latest version</string>
+    <string name="update_check_failed">Could not check for updates</string>
+    <string name="update_available">Version %1$s is available</string>
+    <string name="update_available_description">A new ARM64 APK is ready to download.</string>
+    <string name="download_and_install">Download and install</string>
+    <string name="update_download_started">Downloading update</string>
+    <string name="update_download_failed">Update download failed</string>
+    <string name="allow_install_unknown_apps">Allow this app to install unknown apps, then return to continue.</string>
     <string name="donate">Donate</string>
     <string name="error_opening_link">No app found to handle this link</string>
     <string name="support_the_developer_on">Support the developer on %1$s</string>

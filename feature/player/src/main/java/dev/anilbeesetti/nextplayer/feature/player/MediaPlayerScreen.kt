@@ -1,6 +1,5 @@
 package dev.anilbeesetti.nextplayer.feature.player
 
-import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.annotation.OptIn
 import androidx.compose.animation.AnimatedVisibility
@@ -369,6 +368,7 @@ fun MediaPlayerScreen(
                             ) {
                                 ControlsTopView(
                                     title = metadataState.title ?: "",
+                                    videoContentScale = videoZoomAndContentScaleState.videoContentScale,
                                     onAudioClick = {
                                         controlsVisibilityState.hideControls()
                                         overlayView = OverlayView.AUDIO_SELECTOR
@@ -377,13 +377,17 @@ fun MediaPlayerScreen(
                                         controlsVisibilityState.hideControls()
                                         overlayView = OverlayView.SUBTITLE_SELECTOR
                                     },
-                                    onPlaybackSpeedClick = {
-                                        controlsVisibilityState.hideControls()
-                                        overlayView = OverlayView.PLAYBACK_SPEED
-                                    },
                                     onPlaylistClick = {
                                         controlsVisibilityState.hideControls()
                                         overlayView = OverlayView.PLAYLIST
+                                    },
+                                    onVideoContentScaleClick = {
+                                        controlsVisibilityState.showControls()
+                                        videoZoomAndContentScaleState.switchToNextVideoContentScale()
+                                    },
+                                    onVideoContentScaleLongClick = {
+                                        controlsVisibilityState.hideControls()
+                                        overlayView = OverlayView.VIDEO_CONTENT_SCALE
                                     },
                                     onBackClick = onBackClick,
                                 )
@@ -410,43 +414,21 @@ fun MediaPlayerScreen(
                                 enter = fadeIn(),
                                 exit = fadeOut(),
                             ) {
-                                val context = LocalContext.current
                                 ControlsBottomView(
-                                    player = player,
                                     mediaPresentationState = mediaPresentationState,
                                     controlsAlignment = when (playerPreferences.controlButtonsPosition) {
                                         ControlButtonsPosition.LEFT -> Alignment.Start
                                         ControlButtonsPosition.RIGHT -> Alignment.End
                                     },
-                                    videoContentScale = videoZoomAndContentScaleState.videoContentScale,
-                                    isPipSupported = pictureInPictureState.isPipSupported,
                                     seekBarModifier = Modifier.thenIf(isTv) {
                                         focusRequester(seekBarFocusRequester)
                                             .focusProperties { up = playPauseFocusRequester }
                                     },
                                     onSeek = seekGestureState::onSeek,
                                     onSeekEnd = seekGestureState::onSeekEnd,
-                                    onRotateClick = rotationState::rotate,
-                                    onPlayInBackgroundClick = onPlayInBackgroundClick,
-                                    onLockControlsClick = {
-                                        controlsVisibilityState.showControls()
-                                        controlsVisibilityState.lockControls()
-                                    },
-                                    onVideoContentScaleClick = {
-                                        controlsVisibilityState.showControls()
-                                        videoZoomAndContentScaleState.switchToNextVideoContentScale()
-                                    },
-                                    onVideoContentScaleLongClick = {
+                                    onPlaybackSpeedClick = {
                                         controlsVisibilityState.hideControls()
-                                        overlayView = OverlayView.VIDEO_CONTENT_SCALE
-                                    },
-                                    onPictureInPictureClick = {
-                                        if (!pictureInPictureState.hasPipPermission) {
-                                            Toast.makeText(context, coreUiR.string.enable_pip_from_settings, Toast.LENGTH_SHORT).show()
-                                            pictureInPictureState.openPictureInPictureSettings()
-                                        } else {
-                                            pictureInPictureState.enterPictureInPictureMode()
-                                        }
+                                        overlayView = OverlayView.PLAYBACK_SPEED
                                     },
                                 )
                             }

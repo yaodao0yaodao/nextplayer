@@ -68,7 +68,7 @@ import dev.anilbeesetti.nextplayer.core.ui.components.NextTopAppBar
 import dev.anilbeesetti.nextplayer.core.ui.designsystem.NextIcons
 import kotlinx.coroutines.launch
 
-private const val GITHUB_URL = "https://github.com/anilbeesetti/nextplayer"
+private const val GITHUB_URL = "https://github.com/yaodao0yaodao/nextplayer"
 private const val KOFI_URL = "https://ko-fi.com/anilbeesetti"
 private const val PAYPAL_URL = "https://paypal.me/AnilBeesetti"
 private const val UPI_ID = "anilbeesetti10@oksbi"
@@ -298,6 +298,7 @@ fun AboutApp(
                 Text(text = stringResource(R.string.github))
             }
         }
+        AppUpdateButton()
     }
 }
 

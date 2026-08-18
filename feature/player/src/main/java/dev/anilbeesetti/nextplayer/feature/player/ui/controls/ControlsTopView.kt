@@ -23,19 +23,23 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
+import dev.anilbeesetti.nextplayer.core.model.VideoContentScale
 import dev.anilbeesetti.nextplayer.core.ui.R
 import dev.anilbeesetti.nextplayer.core.ui.extensions.copy
 import dev.anilbeesetti.nextplayer.feature.player.buttons.PlayerButton
+import dev.anilbeesetti.nextplayer.feature.player.extensions.drawableRes
 
 @OptIn(UnstableApi::class)
 @Composable
 fun ControlsTopView(
     modifier: Modifier = Modifier,
     title: String,
+    videoContentScale: VideoContentScale,
     onAudioClick: () -> Unit = {},
     onSubtitleClick: () -> Unit = {},
-    onPlaybackSpeedClick: () -> Unit = {},
     onPlaylistClick: () -> Unit = {},
+    onVideoContentScaleClick: () -> Unit = {},
+    onVideoContentScaleLongClick: () -> Unit = {},
     onBackClick: () -> Unit,
 ) {
     val systemBarsPadding = WindowInsets.systemBars.union(WindowInsets.displayCutout).asPaddingValues()
@@ -75,12 +79,6 @@ fun ControlsTopView(
                     contentDescription = null,
                 )
             }
-            PlayerButton(onClick = onPlaybackSpeedClick) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_speed),
-                    contentDescription = null,
-                )
-            }
             PlayerButton(onClick = onAudioClick) {
                 Icon(
                     painter = painterResource(R.drawable.ic_audio_track),
@@ -90,6 +88,15 @@ fun ControlsTopView(
             PlayerButton(onClick = onSubtitleClick) {
                 Icon(
                     painter = painterResource(R.drawable.ic_subtitle_track),
+                    contentDescription = null,
+                )
+            }
+            PlayerButton(
+                onClick = onVideoContentScaleClick,
+                onLongClick = onVideoContentScaleLongClick,
+            ) {
+                Icon(
+                    painter = painterResource(videoContentScale.drawableRes()),
                     contentDescription = null,
                 )
             }
