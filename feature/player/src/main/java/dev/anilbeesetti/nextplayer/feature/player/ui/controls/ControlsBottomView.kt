@@ -74,6 +74,7 @@ fun ControlsBottomView(
     controlsAlignment: Alignment.Horizontal,
     seekBarModifier: Modifier = Modifier,
     onPlaybackSpeedClick: () -> Unit,
+    onRotateClick: () -> Unit,
     onSeek: (Long) -> Unit,
     onSeekEnd: () -> Unit,
 ) {
@@ -124,6 +125,19 @@ fun ControlsBottomView(
                 )
             }
 
+            Spacer(modifier = Modifier.weight(1f))
+            if (!isTv) {
+                PlayerButton(
+                    modifier = modifier.size(30.dp),
+                    onClick = onRotateClick,
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_screen_rotation),
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp),
+                    )
+                }
+            }
         }
         PlayerSeekbar(
             modifier = seekBarModifier,
